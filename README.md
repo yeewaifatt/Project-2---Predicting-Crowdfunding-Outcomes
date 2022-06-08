@@ -4,7 +4,8 @@
 
 ### Parameters
 * Target Vector : State (Successful, Live, Failed, Cancelled)
-* Data-points : 30,992 rows x 13 columns
+* Data-points : 30,992 rows x 13 columns (fairly imbalanced dataset - State is heavily skewed to 
+'Successful' 19,712 rows vs 'Failed' 9,538 rows vs 'Canceled' 953 and 'Live' 789 rows)
 * Validation dataset : 2,295 rows
 * Train-test dataset : 28,697 rows
 * SVM type: Linear
