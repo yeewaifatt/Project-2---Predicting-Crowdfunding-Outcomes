@@ -29,3 +29,23 @@ the training data but will likely perform poorly on unseen data.
 ![Version 2 Validation Data](images/SVM_P_v2.jpg) ![Version 2 Validation Classification Report](images/SVM_R_v2.jpg)
 
 ![Version 2 Train Test Data](images/SVM_TT_P_v2.jpg) ![Version 2 Train Test Classification Report](images/SVM_TT_R_v2.jpg)
+
+---
+## Random Forest Classifier
+
+### Features
+
+Most important features appear to be relativly evenly split, the results are not heavily skewed by the value of any one feature.
+
+![feature_importances](images/Feature_importances.png)
+
+### Classification report
+
+The smaller validation set appeared to have a higher accuracy than the training/testing set. This is possibly due to the skewness of the data and a tendency for the model to overfit when using a smaller data set. Implementing an over/undersampling step may alleviate these problems.
+
+![classification_reports](images/Classification_reports_random_forest.png)
+
+### Confusion Matrix
+It is also evident that the model is incapable of accuratly predicting the lesser known states, the poor precision/recal of the 'cancelled' state is due to the model often confusing this state with a failed state.
+
+![confusion_matrix](images/Testing_cm.png)
