@@ -1,5 +1,8 @@
 # Project-2---Predicting-Crowdfunding-Outcomes
 
+## Get raw_data
+before running this code, create a folder inside the repo folder called 'raw_data' containing the exctracted CSV files from the download link.
+
 ## Data pipeline
 We got the dataset from a pre-existing amazon s3 bucket, which was compiled by a web scraping service. The raw data contained a set of csv files, these files were concatenated along rows to build one large data frame. This gave us approximately 30000 data points each with more than 30 individual features. Some of the features were expressed as a JSON, these features required some extra data wrangling to unpack so that we could use them.
 After the initial data processing, we began trimming the features to build a dataset that would be suitable as an input into various classification models. We also conducted some basic feature engineering, such as calculation of total active days and time to launch.
