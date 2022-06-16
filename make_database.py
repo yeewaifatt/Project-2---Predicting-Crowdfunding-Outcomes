@@ -47,6 +47,14 @@ db_connection = os.getenv("KICKSTARTER_DB_URL")
 # init database engine
 engine = create_engine(db_connection)
 
+# open and read SQL file to create the tables in the 'kickstarter' database
+sql = open("create_tables.sql", "r")
+sql_file = sql.read()
+sql.close()
+
+# execute the SQL to create the empty tables and relations.
+engine.execute(sql_file)
+
 # path to each file in the all_data folder
 all_paths = glob.glob("raw_data/*.csv")
 
