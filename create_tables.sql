@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS  projects CASCADE;
+DROP TABLE IF EXISTS  kickstarters CASCADE;
 DROP TABLE IF EXISTS  category CASCADE;
 DROP TABLE IF EXISTS  creator CASCADE;
 DROP TABLE IF EXISTS  location CASCADE;
@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS  photo CASCADE;
 DROP TABLE IF EXISTS  profile CASCADE;
 DROP TABLE IF EXISTS  urls CASCADE;
 
-CREATE TABLE projects(
+CREATE TABLE kickstarters(
     id                              INT PRIMARY KEY NOT NULL,
     backers_count                   INT,
     blurb                           TEXT,
@@ -40,7 +40,7 @@ CREATE TABLE projects(
 
 CREATE TABLE category(
     id                              INT,
-    project_id                      INT NOT NULL,
+    kickstarter_id                  INT NOT NULL,
     name                            VARCHAR(255),
     analytics_name                  VARCHAR(255),
     slug                            VARCHAR(255),
@@ -49,12 +49,12 @@ CREATE TABLE category(
     parent_name                     VARCHAR(255),
     color                           INT,
     "urls.web.discover"             TEXT,
-    FOREIGN KEY (project_id) REFERENCES projects(id)
+    FOREIGN KEY (kickstarter_id) REFERENCES kickstarters(id)
 );
 
 CREATE TABLE creator(
     id                              DECIMAL,
-    project_id                      INT NOT NULL,
+    kickstarter_id                  INT NOT NULL,
     name                            VARCHAR(255),
     slug                            VARCHAR(255),
     is_registered                   NUMERIC,
@@ -66,12 +66,12 @@ CREATE TABLE creator(
     "avatar.medium"                 TEXT,
     "urls.web.user"                 TEXT,
     "urls.api.user"                 TEXT,
-    FOREIGN KEY (project_id) REFERENCES projects(id)
+    FOREIGN KEY (kickstarter_id) REFERENCES kickstarters(id)
 );
 
 CREATE TABLE location(
     id                              DECIMAL,
-    project_id                      INT NOT NULL,
+    kickstarter_id                  INT NOT NULL,
     name                            VARCHAR(255),
     slug                            VARCHAR(255),
     short_name                      VARCHAR(255),
@@ -85,11 +85,11 @@ CREATE TABLE location(
     "urls.web.discover"             TEXT,
     "urls.web.location"             TEXT,
     "urls.api.nearby_projects"      TEXT,
-    FOREIGN KEY (project_id) REFERENCES projects(id)
+    FOREIGN KEY (kickstarter_id) REFERENCES kickstarters(id)
 );
 
 CREATE TABLE photo(
-    project_id                      INT NOT NULL,
+    kickstarter_id                  INT NOT NULL,
     "key"                           TEXT,
     "full"                          TEXT,
     ed                              TEXT,
@@ -99,13 +99,14 @@ CREATE TABLE photo(
     thumb                           TEXT,
     "1024x576"                      TEXT,
     "1536x864"                      TEXT,
-    FOREIGN KEY (project_id) REFERENCES projects(id)
+    FOREIGN KEY (kickstarter_id) REFERENCES kickstarters(id)
 );
 
 
 CREATE TABLE profile(
     id                                                      DECIMAL,
-    project_id                                              INT NOT NULL,
+    kickstarter_id                                          INT NOT NULL,
+	project_id												INT,
     state                                                   VARCHAR(255),
     state_changed_at                                        DECIMAL,
     name                                                    VARCHAR(255),
@@ -125,12 +126,12 @@ CREATE TABLE profile(
     "background_image_attributes.id"                        DECIMAL,
     "background_image_attributes.image_urls.default"        TEXT,
     "background_image_attributes.image_urls.baseball_card"  TEXT,
-    FOREIGN KEY (project_id) REFERENCES projects(id)
+    FOREIGN KEY (kickstarter_id) REFERENCES kickstarters(id)
 );
 
 CREATE TABLE urls(
-    project_id                      INT NOT NULL,
+    kickstarter_id                  INT NOT NULL,
     "web.project"                   TEXT,
     "web.rewards"                   TEXT,
-    FOREIGN KEY (project_id) REFERENCES projects(id)
+    FOREIGN KEY (kickstarter_id) REFERENCES kickstarters(id)
 );
