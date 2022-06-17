@@ -1,10 +1,23 @@
 # Project-2---Predicting-Crowdfunding-Outcomes
+This project was inspired by a research paper by S.Khosla et al. The paper discussed the application of various machine learning models to predict the outcome of Kickstarter projects. The results obtained in the paper were quite reproducable, as many of the models tested in this project see similar accuracy scores to that of the Standford paper, albeit with slightly different methodology/data. [Read the paper here](https://cs229.stanford.edu/proj2021spr/report2/81995033.pdf)
 
-## Get raw_data
-before running this code, create a folder inside the repo folder called 'raw_data' containing the exctracted CSV files from the download link.
+This repository includes the data collection, processing and model building as well as a small streamlit application for anyone wanting to test out the model with their own input data.
 
-## Data pipeline
-We got the dataset from a pre-existing amazon s3 bucket, which was compiled by a web scraping service. The raw data contained a set of csv files, these files were concatenated along rows to build one large data frame. This gave us approximately 30000 data points each with more than 30 individual features. Some of the features were expressed as a JSON, these features required some extra data wrangling to unpack so that we could use them.
+## Raw data
+All of the data used in this porject was sourced from a pre-existing amazon s3 bucket, which was compiled by a [web scraping service](https://webrobots.io/kickstarter-datasets/), The download link for the exact dataset used can be found [here](https://s3.amazonaws.com/weruns/forfun/Kickstarter/Kickstarter_2022-04-21T03_20_08_060Z.zip).
+
+## SQL Database 
+The raw data is a zip file which contains a set of csv files, of which some columns contain JSON objects. The make_database.py script will populate an SQL database with the extracted CSV files. 
+
+If you wish to run this code on your local machine, ensure that you have set up an SQL DB and have the exctracted CSV files in a folder named 'raw_data' in the SQLDatabase directory. Also  ensure you have a .env file with 'KICKSTARTER_DB_URL' as a variable to ensure that the python script can connect with your DB.
+
+![DB_schema](images/Database%20Schema.png)
+
+
+## Model exploration
+
+## Pipeline
+ these files were concatenated along rows to build one large data frame. This gave us approximately 30000 data points each with more than 30 individual features. Some of the features were expressed as a JSON, these features required some extra data wrangling to unpack so that we could use them.
 After the initial data processing, we began trimming the features to build a dataset that would be suitable as an input into various classification models. We also conducted some basic feature engineering, such as calculation of total active days and time to launch.
 Following this, the non numerical data was encoded using sklearn's LabelEncoder, giving us a numerical dataset to feed into the models.
 The now encoded data was split into a validation set and a testing set, with the validation set being from the recent market volatility of 2020. Following this, values were scaled using sklearn's StandardScaler, and train/test split was done to feed into various models.
