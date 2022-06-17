@@ -1,5 +1,10 @@
+# large files
 data/
 raw_data/
+rf_pipe.sav
+
+# other unwanted files
 .ipynb_checkpoints
 .DS_store
 .env
+
