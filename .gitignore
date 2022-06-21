@@ -1,7 +1,6 @@
 # large files
 data/
 raw_data/
-app/rf_pipe.sav
 
 # other unwanted files
 .ipynb_checkpoints

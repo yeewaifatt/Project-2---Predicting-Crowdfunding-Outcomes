@@ -4,72 +4,42 @@ This project was inspired by a research paper by S.Khosla et al. The paper discu
 This repository includes the data collection, processing and model building as well as a small streamlit application for anyone wanting to test out the model with their own input data.
 
 ## Raw data
-All of the data used in this porject was sourced from a pre-existing amazon s3 bucket, which was compiled by a [web scraping service](https://webrobots.io/kickstarter-datasets/), The download link for the exact dataset used can be found [here](https://s3.amazonaws.com/weruns/forfun/Kickstarter/Kickstarter_2022-04-21T03_20_08_060Z.zip).
+All of the data used in this project was sourced from a pre-existing amazon s3 bucket, which was compiled by a [web scraping service](https://webrobots.io/kickstarter-datasets/), The download link for the exact dataset used can be found [here](https://s3.amazonaws.com/weruns/forfun/Kickstarter/Kickstarter_2022-04-21T03_20_08_060Z.zip).
 
 ## SQL Database 
-The raw data is a zip file which contains a set of csv files, of which some columns contain JSON objects. The make_database.py script will populate an SQL database with the extracted CSV files. 
+The raw data is a zip file which contains a set of csv files, of which some columns contain JSON objects. The files were concatenated along rows to build one large data frame. This gave approximately 30000 data points each with more than 30 individual features. Some of the features were expressed as a JSON, these features required some extra data wrangling to unpack so that we could use them. The make_database.py script will populate an SQL database with the extracted original dataframe and JSON objects. 
 
-If you wish to run this code on your local machine, ensure that you have set up an SQL DB and have the exctracted CSV files in a folder named 'raw_data' in the SQLDatabase directory. Also  ensure you have a .env file with 'KICKSTARTER_DB_URL' as a variable to ensure that the python script can connect with your DB.
+If you wish to run this code on your local machine, ensure that you have set up an SQL DB and have the extracted CSV files in a folder named 'raw_data' in the SQLDatabase directory. Also  ensure you have a .env file with 'KICKSTARTER_DB_URL' as a variable to ensure that the python script can connect with your DB.
 
 ![DB_schema](images/Database%20Schema.png)
 
-
-## Model exploration
-
-## Pipeline
- these files were concatenated along rows to build one large data frame. This gave us approximately 30000 data points each with more than 30 individual features. Some of the features were expressed as a JSON, these features required some extra data wrangling to unpack so that we could use them.
-After the initial data processing, we began trimming the features to build a dataset that would be suitable as an input into various classification models. We also conducted some basic feature engineering, such as calculation of total active days and time to launch.
-Following this, the non numerical data was encoded using sklearn's LabelEncoder, giving us a numerical dataset to feed into the models.
-The now encoded data was split into a validation set and a testing set, with the validation set being from the recent market volatility of 2020. Following this, values were scaled using sklearn's StandardScaler, and train/test split was done to feed into various models.
-Some things that were tested but didn't make it into the final data model included Random Over sampling to address the imbalanced dataset, removal of 'live' and 'cancelled' states from the final predictions and the testing of regressive models as a predictor of funding amount.
-
-
-## Support Vector Machine (SVM) Classification Model
-
-### Parameters
-* Target Vector : State (Successful, Live, Failed, Cancelled)
-* Data-points : 30,992 rows x 13 columns (fairly imbalanced dataset - State is heavily skewed to 
-'Successful' 19,712 rows vs 'Failed' 9,538 rows vs 'Canceled' 953 and 'Live' 789 rows)
-* Validation dataset : 2,295 rows
-* Train-test dataset : 28,697 rows
-* SVM type: Linear
-
-### Key Findings
-* In fitting the model, we note that the number of iteration has a bearing on the prediction accuracy.
-* Generally, as the number of iteration increases so does the prediction accuracy.
-* However, the setback is that the model will tend to overfit i.e. it can predict accurately based on
-the training data but will likely perform poorly on unseen data.
-* The challenge then becomes finding the optimal training parameters that yields the best fit through trial and error.
-
-### Comparing The Two Versions
-
-#### Version 1
-![Version 1 Validation Data](images/SVM_P_v1.jpg) ![Version 1 Validation Classification Report](images/SVM_R_v1.jpg)
-
-![Version 1 Train Test Data](images/SVM_TT_P_v1.jpg) ![Version 1 Train Test Classification Report](images/SVM_TT_R_v1.jpg)
-
-#### Version 2
-
-![Version 2 Validation Data](images/SVM_P_v2.jpg) ![Version 2 Validation Classification Report](images/SVM_R_v2.jpg)
-
-![Version 2 Train Test Data](images/SVM_TT_P_v2.jpg) ![Version 2 Train Test Classification Report](images/SVM_TT_R_v2.jpg)
+---
+## Preprocessing and Feature engineering
+Features were selected form the databe using an SQL engine and pandas. The query was written to select data that would only have been available prior to the the kickstarter project ending. Data preprocessing consisted of dropping of duplicates, NaN values and some low level feature engineering. Non-neumerical features were encoded using a OneHotEncoding and all other values were scaled using a standard scaler.
 
 ---
-## Random Forest Classifier
+## Model exploration
+Four different classification models have been have been tested on the training data.
 
-### Features
+### Random Forest
+SKlearn's RandomForest was used with no changes to the hyperparameters and returns an accuracy of 84% for the testing data, this aligns very closely to the results obained in the Stanford paper. 
 
-Most important features appear to be relativly evenly split, the results are not heavily skewed by the value of any one feature.
+### Support Vector Machine (SVM)
+The Support vector machine was run using a linear kernel, and the gradient was iterated 500 times. This model yeilded a testing accuracy of 58%, with results heavily skewed toward the 'successful' project state, likely because of the imbalanced nature of the dataset. This result falls short of the Stanford paper of 79% accuracy, and is probably attirbuted to the lack of under/over sampling of the data. 
 
-![feature_importances](images/Feature_importances.png)
+### SKlearn's Neural Network
+SKlearn's implementation of a multi-layer perceptron classifier was used with the lbfgs solver and an architecture of (input,4,2,1). The model achieved an accuracy of 77%, leaving it just shy of the 80% achieved in the Stanford paper. Given more data processing and feature engineering, this model could see significant improvements in performance as it faces similar problems to the SVM with the imbalanced dataset.
 
-### Classification report
+### XGBoost
+The implementation of the XGBoosting algorithm was used as a comparison to the random forest classifier, the parameters for XGBoost were chosen after a small amount of manual trial and error however, a gridSearch would be nessecary for optimal model performance. The XGBoosted model achieved an accuracy score of 83% making it almost identical to the Random forest model and the Stanford paper's result (although the paper used only gradient boosting, not XGBoost).
 
-The smaller validation set appeared to have a higher accuracy than the training/testing set. This is possibly due to the skewness of the data and a tendency for the model to overfit when using a smaller data set. Implementing an over/undersampling step may alleviate these problems.
+---
+## App
+a small applcation was built using streamlit to allow users to play around with the pretrained random forest, SVM and neural network models.
+### Pipeline
+The data processing steps used in the model selection section were compressed into an sklearn pipeline, the Random forest, SVM and neural network models were pickled into .sav files to be used as predictors in the app.
 
-![classification_reports](images/Classification_reports_random_forest.png)
 
-### Confusion Matrix
-It is also evident that the model is incapable of accuratly predicting the lesser known states, the poor precision/recal of the 'cancelled' state is due to the model often confusing this state with a failed state.
 
-![confusion_matrix](images/Testing_cm.png)
+
+---
