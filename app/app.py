@@ -143,7 +143,7 @@ def main():
         st.markdown(
             "### SKlearn's Neural Network\nSKlearn's implementation of a multi-layer perceptron classifier was used with the lbfgs solver and an architecture of (input,4,2,1). The model achieved an accuracy of 80%, equivalent to the 80% achieved in the Stanford paper. Given more data processing and feature engineering, this model could see significant improvements in performance as it faces similar problems to the SVM with the imbalanced dataset."
         )
-        st.image('nn_report.png')
+        st.image('app/nn_report.png')
     else:
         st.markdown(
             "Random Forest\nSKlearn's RandomForest was used with no changes to the hyperparameters and returns an accuracy of 80% for the testing data, this aligns very closely to the results obained in the Stanford paper."
