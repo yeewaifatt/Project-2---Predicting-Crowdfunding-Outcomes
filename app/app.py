@@ -148,7 +148,7 @@ def main():
         st.image('images/nn_report.png')
     else:
         st.markdown(
-            "Random Forest\nSKlearn's RandomForest was used with no changes to the hyperparameters and returns an accuracy of 80% for the testing data, this aligns very closely to the results obained in the Stanford paper."
+            "### Random Forest\nSKlearn's RandomForest was used with no changes to the hyperparameters and returns an accuracy of 80% for the testing data, this aligns very closely to the results obained in the Stanford paper."
         )
         st.image('images/Random_forest_report.png')
 
