@@ -22,13 +22,13 @@ Features were selected form the databe using an SQL engine and pandas. The query
 Four different classification models have been have been tested on the training data.
 
 ### Random Forest
-SKlearn's RandomForest was used with no changes to the hyperparameters and returns an accuracy of 84% for the testing data, this aligns very closely to the results obained in the Stanford paper. 
+SKlearn's RandomForest was used with no changes to the hyperparameters and returns an accuracy of 80% for the testing data, this aligns very closely to the results obained in the Stanford paper. 
 
 ### Support Vector Machine (SVM)
-The Support vector machine was run using a linear kernel, and the gradient was iterated 500 times. This model yeilded a testing accuracy of 58%, with results heavily skewed toward the 'successful' project state, likely because of the imbalanced nature of the dataset. This result falls short of the Stanford paper of 79% accuracy, and is probably attirbuted to the lack of under/over sampling of the data. 
+The Support vector machine was run using a linear kernel, and the gradient was iterated 500 times. This model yeilded a testing accuracy of 67%, with results heavily skewed toward the 'successful' project state, likely because of the imbalanced nature of the dataset. This result falls short of the Stanford paper of 79% accuracy, and is probably attirbuted to the lack of under/over sampling of the data. 
 
 ### SKlearn's Neural Network
-SKlearn's implementation of a multi-layer perceptron classifier was used with the lbfgs solver and an architecture of (input,4,2,1). The model achieved an accuracy of 77%, leaving it just shy of the 80% achieved in the Stanford paper. Given more data processing and feature engineering, this model could see significant improvements in performance as it faces similar problems to the SVM with the imbalanced dataset.
+SKlearn's implementation of a multi-layer perceptron classifier was used with the lbfgs solver and an architecture of (input,4,2,1). The model achieved an accuracy of 80%, equivalent to the 80% achieved in the Stanford paper. Given more data processing and feature engineering, this model could see significant improvements in performance as it faces similar problems to the SVM with the imbalanced dataset.
 
 ### XGBoost
 The implementation of the XGBoosting algorithm was used as a comparison to the random forest classifier, the parameters for XGBoost were chosen after a small amount of manual trial and error however, a gridSearch would be nessecary for optimal model performance. The XGBoosted model achieved an accuracy score of 83% making it almost identical to the Random forest model and the Stanford paper's result (although the paper used only gradient boosting, not XGBoost).
