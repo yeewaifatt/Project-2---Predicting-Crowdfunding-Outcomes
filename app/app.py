@@ -85,9 +85,6 @@ categories = {
 
 
 def predict_outcome(model, data):
-
-    if len(data) != 6:
-        return ['please enter your values in the side panel']
     # build dict of data to predict from
     dict_data = {
         "country": data[0],
@@ -116,12 +113,12 @@ def main():
     country = st.sidebar.selectbox("The country the Project is based in", countries)
     parent_name = st.sidebar.selectbox("Category", categories)
     name = st.sidebar.selectbox("Sub-Category", categories[parent_name])
-    goal_usd = st.sidebar.text_input("target funding goal ($USD)")
+    goal_usd = st.sidebar.text_input("target funding goal ($USD)", value=0)
     total_days_active = st.sidebar.text_input(
-        "How long will the project be live? (days)"
+        "How long will the project be live? (days)", value=0
     )
     launch_time = st.sidebar.text_input(
-        "How long will the project be visible before going live? (days)"
+        "How long will the project be visible before going live? (days)", value=0
     )
 
     # create button to generate prediction
