@@ -37,5 +37,7 @@ The implementation of the XGBoosting algorithm was used as a comparison to the r
 ## App
 A small applcation was built using streamlit to allow users to play around with the pretrained random forest, SVM and neural network models. [The app is hosted using streamlit's free service here.](https://share.streamlit.io/epicosp/predicting-crowdfunding-outcomes/main/app/app.py)
 
+After experimenting with the application, it is obvious that some of the categories contain highly baised data and will give a guaranteed success regardless of other parameters.
+
 ### Pipeline
 The data processing steps used in the model selection section were compressed into an sklearn pipeline, the Random forest, SVM and neural network models were pickled into .sav files to be used as predictors in the app.
