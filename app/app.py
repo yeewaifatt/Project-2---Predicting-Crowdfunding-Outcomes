@@ -86,6 +86,8 @@ categories = {
 
 def predict_outcome(model, data):
 
+    if len(data) != 6:
+        return ['please enter your values in the side panel']
     # build dict of data to predict from
     dict_data = {
         "country": data[0],
