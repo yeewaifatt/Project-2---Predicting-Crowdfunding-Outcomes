@@ -106,6 +106,8 @@ def predict_outcome(model, data):
 def main():
     st.title("Predict your Kickstarter's Success!")
 
+    st.write('Play around with the parameters on the left and hit the button to predict the outcome.')
+
     current_model = st.sidebar.selectbox("Select the model you want to use", all_models)
 
     # get user input for inputs to the model prediction
