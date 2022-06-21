@@ -138,7 +138,7 @@ def main():
         st.markdown(
             "### Support Vector Machine (SVM)\nThe Support vector machine was run using a linear kernel, and the gradient was iterated 500 times. This model yeilded a testing accuracy of 67%, with results heavily skewed toward the 'successful' project state, likely because of the imbalanced nature of the dataset. This result falls short of the Stanford paper of 79% accuracy, and is probably attirbuted to the lack of under/over sampling of the data."
         )
-        st.image('app/app_images/SVM_report.png')
+        st.image('images/SVM_report.png')
     elif current_model == "Neural network":
         st.markdown(
             "### SKlearn's Neural Network\nSKlearn's implementation of a multi-layer perceptron classifier was used with the lbfgs solver and an architecture of (input,4,2,1). The model achieved an accuracy of 80%, equivalent to the 80% achieved in the Stanford paper. Given more data processing and feature engineering, this model could see significant improvements in performance as it faces similar problems to the SVM with the imbalanced dataset."
@@ -148,7 +148,7 @@ def main():
         st.markdown(
             "Random Forest\nSKlearn's RandomForest was used with no changes to the hyperparameters and returns an accuracy of 80% for the testing data, this aligns very closely to the results obained in the Stanford paper."
         )
-        st.image('app/app_images/Random_forest_report.png')
+        st.image('images/Random_forest_report.png')
 
     st.markdown(
         "If you want to know more about this project, the github repo can be seen [here](https://github.com/Epicosp/Predicting-Crowdfunding-Outcomes)"
