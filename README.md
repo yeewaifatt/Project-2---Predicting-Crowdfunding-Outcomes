@@ -7,7 +7,7 @@ This repository includes the data collection, processing and model building as w
 All of the data used in this project was sourced from a pre-existing amazon s3 bucket, which was compiled by a [web scraping service](https://webrobots.io/kickstarter-datasets/), The download link for the exact dataset used can be found [here](https://s3.amazonaws.com/weruns/forfun/Kickstarter/Kickstarter_2022-04-21T03_20_08_060Z.zip).
 
 ## SQL Database 
-The raw data is a zip file which contains a set of csv files, of which some columns contain JSON objects. The files were concatenated along rows to build one large data frame. This gave approximately 30000 data points each with more than 30 individual features. Some of the features were expressed as a JSON, these features required some extra data wrangling to unpack so that we could use them. The make_database.py script will populate an SQL database with the extracted original dataframe and JSON objects. 
+The raw data is a zip file which contains a set of csv files, the files were concatenated along rows to build one large data frame. This gave approximately 30000 data points each with more than 30 individual features. Some of the features were expressed as a JSON, these features required some extra data wrangling to unpack so that they could be used. The make_database.py script will populate an SQL database with the features of the original dataframe and JSON objects. 
 
 If you wish to run this code on your local machine, ensure that you have set up an SQL DB and have the extracted CSV files in a folder named 'raw_data' in the SQLDatabase directory. Also  ensure you have a .env file with 'KICKSTARTER_DB_URL' as a variable to ensure that the python script can connect with your DB.
 
@@ -15,7 +15,7 @@ If you wish to run this code on your local machine, ensure that you have set up 
 
 ---
 ## Preprocessing and Feature engineering
-Features were selected form the databe using an SQL engine and pandas. The query was written to select data that would only have been available prior to the the kickstarter project ending. Data preprocessing consisted of dropping of duplicates, NaN values and some low level feature engineering. Non-neumerical features were encoded using a OneHotEncoding and all other values were scaled using a standard scaler.
+Features were selected form the database using an SQL engine and pandas. The query was written to select data that would only have been available prior to the the kickstarter project ending. Data preprocessing consisted of dropping of duplicates, NaN values and some low level feature engineering. Non-neumerical features were encoded using a OneHotEncoding and all other values were scaled using a standard scaler.
 
 ---
 ## Model exploration
@@ -31,16 +31,11 @@ The Support vector machine was run using a linear kernel, and the gradient was i
 SKlearn's implementation of a multi-layer perceptron classifier was used with the lbfgs solver and an architecture of (input,4,2,1). The model achieved an accuracy of 80%, equivalent to the 80% achieved in the Stanford paper. Given more data processing and feature engineering, this model could see significant improvements in performance as it faces similar problems to the SVM with the imbalanced dataset.
 
 ### XGBoost
-The implementation of the XGBoosting algorithm was used as a comparison to the random forest classifier, the parameters for XGBoost were chosen after a small amount of manual trial and error however, a gridSearch would be nessecary for optimal model performance. The XGBoosted model achieved an accuracy score of 83% making it almost identical to the Random forest model and the Stanford paper's result (although the paper used only gradient boosting, not XGBoost).
+The implementation of the XGBoosting algorithm was used as a comparison to the random forest classifier, the parameters for XGBoost were chosen after a small amount of manual trial and error however, a gridSearch would be nessecary for optimal model performance. The XGBoosted model achieved an accuracy score of 83% making it slightly better than the Random forest model and the Stanford paper's result (although the paper used only gradient boosting, not XGBoost).
 
 ---
 ## App
-a small applcation was built using streamlit to allow users to play around with the pretrained random forest, SVM and neural network models. [The app is hosted using streamlit's free service here.](https://share.streamlit.io/epicosp/predicting-crowdfunding-outcomes/main/app/app.py)
+A small applcation was built using streamlit to allow users to play around with the pretrained random forest, SVM and neural network models. [The app is hosted using streamlit's free service here.](https://share.streamlit.io/epicosp/predicting-crowdfunding-outcomes/main/app/app.py)
 
 ### Pipeline
 The data processing steps used in the model selection section were compressed into an sklearn pipeline, the Random forest, SVM and neural network models were pickled into .sav files to be used as predictors in the app.
-
-
-
-
----
