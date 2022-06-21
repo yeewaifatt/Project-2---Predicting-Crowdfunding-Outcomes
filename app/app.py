@@ -2,9 +2,10 @@ import streamlit as st
 import pickle
 import pandas as pd
 
-rf_model = pickle.load(open("rf_pipe.sav", "rb"))
-svm_model = pickle.load(open("svm_pipe.sav", "rb"))
-nn_model = pickle.load(open("nn_pipe.sav", "rb"))
+
+rf_model = pickle.load(open('app/rf_pipe.sav', 'rb'))
+svm_model = pickle.load(open('app/svm_pipe.sav', 'rb'))
+nn_model = pickle.load(open('app/nn_pipe.sav', 'rb'))
 
 # all models to select from
 all_models = {
