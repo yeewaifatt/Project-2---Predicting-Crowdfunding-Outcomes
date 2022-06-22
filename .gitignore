@@ -1,4 +1,9 @@
+# large files
 data/
 raw_data/
+
+# other unwanted files
 .ipynb_checkpoints
 .DS_store
+.env
+
